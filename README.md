@@ -1,6 +1,4 @@
-1. Create, on a path of choice on your computer (`<root_path>`), a directory
-   that will hold the code (`<code_path>`). The suggested name for this directory 
-   is `abTab/`. 
+1. Create, on a path of choice on your computer (`<root_path>`), a directory that will hold the code (`<code_path>`). It is recommended to let the basename (final directory) of the (`<root_path>`) be `abTab/`, and to let the (`<code_path>`) be `code/`.    
 
 2. Open `config.cfg` and
    - replace the default value of the `ROOT_PATH` variable with your `<root_path>`.
@@ -8,12 +6,20 @@
    - replace the default value of the `PATH_PATH` variable with a directory
      that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
      
-     You can check which directories are on the `$PATH` variable as follows 
-     $ echo $PATH
+     You can check which directories are on the `$PATH` variable as follows:
 
-2. cd into the `<code_path>` directory
+         $ echo $PATH
+
+3. cd into the `<code_path>` directory
 
        $ cd <root_path>/<code_path>/
+
+4. Install `abTab` on your computer by running the installation script,  `install.sh`:
+
+       $ bash install.sh
+
+   This script will clone the necessary repositories from GitHub, and also create
+   the necessary directory structure in your `<root_path>`.
 
 1. Clone the following repositories into the `<code_path>` directory:
    - https://github.com/reinierdevalk/formats/
@@ -26,8 +32,7 @@
   
 
 
-4. Install `abTab` on your computer by running the install.sh script: 
-   $ bash install.sh
+
 
 5. Run `abTab`. This can be done from any directory on your computer.
    `abTab` takes ...
