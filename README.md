@@ -1,8 +1,8 @@
-1. Create, on a path of choice on your computer (`<root_path>`), a directory that will hold the code (`<code_path>`). It is recommended to let the basename (final directory) of the (`<root_path>`) be `abTab/`, and to let the (`<code_path>`) be `code/`.    
+1. Create, on a path of choice on your computer (`<root_path>`), a directory that will hold the code (`<code_path>`). It is recommended to let the basename (final directory) of `<root_path>` be `abTab/`, and to let `<code_path>` be `code/`.    
 
 2. Open `config.cfg` and
-   - replace the default value of the `ROOT_PATH` variable with your `<root_path>`.
-   - replace the default value of the `CODE_PATH` variable with your `<code_path>`. 
+   - replace the default value of the `ROOT_PATH` variable with `<root_path>`.
+   - replace the default value of the `CODE_PATH` variable with `<code_path>`. 
    - replace the default value of the `PATH_PATH` variable with a directory
      that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
      
