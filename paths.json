@@ -1,0 +1,19 @@
+{
+  // ROOT_PATH
+  "ROOT_PATH":                  "",
+
+  // paths on ROOT_PATH
+  "CODE_PATH":                  "",
+  "DEPLOYMENT_DEV_PATH":        "data/",
+  "DATA_PATH":                  "data/annotated/",
+  "EXPERIMENTS_PATH":           "experiments/",
+  "TEMPLATES_PATH":             "templates/",
+  "MODELS_PATH":                "models/",
+
+  // paths on DATA_PATH
+  "ENCODINGS_PATH":             "voice_separation/encodings/",
+  "MIDI_PATH":                  "voice_separation/MIDI/",
+  "ENCODINGS_PATH_JOSQUINTAB":  "tabmapper/josquin-int/in/tab/", // needed for tests only
+  "MIDI_PATH_JOSQUINTAB":       "tabmapper/josquin-int/in/MIDI/", // needed for tests only
+  "DATASETS_PATH":              "datasets/"
+}

@@ -1,0 +1,13 @@
+.
+formats/bin
+formats/lib/*
+machine_learning/bin
+machine_learning/lib/*
+representations/bin
+representations/lib/*
+tabmapper/bin
+tabmapper/lib/*
+utils/bin
+utils/lib/*
+voice_separation/bin
+voice_separation/lib/*

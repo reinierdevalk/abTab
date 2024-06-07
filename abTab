@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Script that runs TabMapper.
+
+code_path="F:/research/computation/software/code/eclipse/"
+#tabmapper_path="$code_path""abTab/"
+
+# Call java with the arguments given to tabmapper
+# NB. This command can also be called directly from the CLI
+if $2 == "tabmapper":
+	java -cp $("$code_path""cp.sh") tabmapper.TabMapper $1 $2 $3
+#java -cp $("$tabmapper_path""cp.sh") tabmapper.TabMapper $1 $2 $3
