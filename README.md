@@ -1,10 +1,9 @@
 1. Create, on a path of choice on your computer (`<root_path>`), a directory that will hold the code (`<code_path>`). It is recommended to let the basename (final directory) of `<root_path>` be `abTab/`, and to let `<code_path>` be `code/`.    
 
 2. Open `config.cfg` and
-   - replace the default value of the `ROOT_PATH` variable with `<root_path>`.
-   - replace the default value of the `CODE_PATH` variable with `<code_path>`. 
-   - replace the default value of the `PATH_PATH` variable with a directory
-     that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
+   - Replace the default value of the `ROOT_PATH` variable with `<root_path>`.
+   - Replace the default value of the `CODE_PATH` variable with `<code_path>`. 
+   - Replace the default value of the `PATH_PATH` variable with a directory that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
      
      You can check which directories are on the `$PATH` variable as follows:
 
@@ -18,8 +17,11 @@
 
        $ bash install.sh
 
-   This script will clone the necessary repositories from GitHub, and also create
-   the necessary directory structure in your `<root_path>`.
+   This script will 
+   - Clone the necessary code repositories from GitHub.
+   - Create the necessary directory structure in `<root_path>`.
+   - Install the command line tool on your computer. 
+
 
 1. Clone the following repositories into the `<code_path>` directory:
    - https://github.com/reinierdevalk/formats/
