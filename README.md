@@ -1,6 +1,19 @@
-0. Create, on a path of choice on your computer (`<root_path>`), a directory
-   `<code_path>` that will hold the code. The suggested name for this directory 
+1. Create, on a path of choice on your computer (`<root_path>`), a directory
+   that will hold the code (`<code_path>`). The suggested name for this directory 
    is `abTab/`. 
+
+2. Open `config.cfg` and
+   - replace the default value of the `ROOT_PATH` variable with your `<root_path>`.
+   - replace the default value of the `CODE_PATH` variable with your `<code_path>`. 
+   - replace the default value of the `PATH_PATH` variable with a directory
+     that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
+     
+     You can check which directories are on the `$PATH` variable as follows 
+     $ echo $PATH
+
+2. cd into the `<code_path>` directory
+
+       $ cd <root_path>/<code_path>/
 
 1. Clone the following repositories into the `<code_path>` directory:
    - https://github.com/reinierdevalk/formats/
@@ -10,18 +23,8 @@
    - https://github.com/reinierdevalk/tabmapper/
    - https://github.com/reinierdevalk/utils/
    - https://github.com/reinierdevalk/voice_separation/
-
-2. cd into the `<code_path>` directory
-   $ cd <code_path>
   
-3. Open config.cfg and
-   - replace the default value of the ROOT_PATH variable with `<root_path>`.
-   - replace the default value of the CODE_PATH variable with `<code_path>`. 
-   - replace the default value of the PATH_PATH variable with a directory
-     that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
-     
-     You can check which directories are on the `$PATH` variable as follows 
-     $ echo $PATH
+
 
 4. Install `abTab` on your computer by running the install.sh script: 
    $ bash install.sh
