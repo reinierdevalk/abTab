@@ -44,29 +44,67 @@ handle_file() {
 
 echo "Installing ..."
 
-# 1. Handle files
-config_file="$(pwd)""/config.cfg"
+# 1. Handle files TODO what about cp.txt, paths.json, and this file (install.sh)?
+config_file="config.cfg"
+#config_file="$(pwd)""/config.cfg"
 handle_file "$config_file" 0
 cp_file="cp.sh"
 handle_file "$cp_file" 1
-#tm_file="tabmapper"
-#handle_file "$tm_file" 1
-at_file="abTab"
-handle_file "$at_file" 1
+abtab_file="abTab"
+handle_file "$abtab_file" 1
 
-# 2. Source config.cfg to make ROOT_PATH, CODE_PATH, and PATH_PATH 
-#    available locally
+# 2. Source config.cfg and make *_PATHs available locally
 echo "... reading configuration file ... "
 source "$config_file"
-full_path="$ROOT_PATH""$CODE_PATH"
-# Escape forward slashes in full_path
-full_path_esc=$(echo "$full_path" | sed 's/\//\\\//g')
+root_path="$ROOT_PATH"
+code_path="$LIB_PATH"
+exe_path="$EXE_PATH"
 
-# 3. Set full code path in files (replace placeholder with escaped full code path)
-echo "... setting path to code ... "
+# 3. Set path to code in executable
+echo "... setting path to code in abTab ... "
 placeholder="cp_placeholder"
-sed -i "s/$placeholder/$full_path_esc/g" "$cp_file"
-sed -i "s/$placeholder/$full_path_esc/g" "$at_file"        
+# Escape forward slashes and replace placeholder with result
+code_path_esc=$(echo "$code_path" | sed 's/\//\\\//g')
+sed -i "s/$placeholder/$code_path_esc/g" "$abtab_file"
+
+# 4. Check code_path and exe_path
+Handle code dir and executable 
+# a. Code dir
+code_path_first=$(dirname "$code_path")"/" # code path up to abTab/ dir
+code_path_last=$(basename "$code_path")"/" # abTab/ dir
+# If code path exists: empty it (if necessary)
+if [ -d "$code_path" ]; then
+  if [ "$(ls -A "$code_path")" ]; then
+    rm -rf "${code_path:?}/"*
+    echo "    ... emptying existing dir $code_path_last on $code_path_first ..."
+  else
+    echo "    ... empty dir $code_path_last on $code_path_first already exists ..."
+  fi
+# If code path does not exist: create it
+else
+  mkdir -p "$code_path"
+  echo "    ... creating dir $code_path_last on $code_path_first ..."
+fi
+# b. Executable
+# If executable exists: delete it
+if [ -f "$exe_path""$abtab_file" ]; then
+  rm "$exe_path""$abtab_file"
+  echo "    ... deleting existing executable $abtab_file on $exe_path ..."
+fi
+
+# 5. Clone repos into dir holding this script
+# Extract parts before first slash; sort; get unique values
+repos=$(cut -d '/' -f 1 "cp.txt" | sort | uniq)
+for repo in $repos; do
+    # Ignore elements starting with a dot
+    if [[ ! "$repo" =~ ^\. ]]; then
+        repo_url="https://github.com/reinierdevalk/$repo.git"
+        echo "... cloning $repo_url ..."
+        git clone "$repo_url"
+    fi
+done
+
+
 
 ## 4. Create folders
 #echo "... creating folders ... "
@@ -88,8 +126,8 @@ sed -i "s/$placeholder/$full_path_esc/g" "$at_file"
 #    mkdir -p "$data_out"
 #fi
 
-# 5. Copy abTab to global environment
-echo "... copying abTab to "$PATH_PATH" ..."
-cp "$at_file" "$PATH_PATH"
+## 5. Copy abTab to global environment
+#echo "... copying abTab to "$PATH_PATH" ..."
+#cp "$abtab_file" "$PATH_PATH"
 
 echo "done!"

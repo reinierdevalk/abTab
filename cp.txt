@@ -3,6 +3,8 @@ formats/bin
 formats/lib/*
 machine_learning/bin
 machine_learning/lib/*
+melody_models/bin
+melody_models/lib/*
 representations/bin
 representations/lib/*
 tabmapper/bin

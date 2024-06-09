@@ -1,12 +1,19 @@
 #!/bin/bash
 
-# Script that runs TabMapper.
+# Script that runs abTab.
 
-code_path="F:/research/computation/software/code/eclipse/"
-#tabmapper_path="$code_path""abTab/"
+code_path="/usr/local/lib/abTab/"
 
-# Call java with the arguments given to tabmapper
-# NB. This command can also be called directly from the CLI
-if $2 == "tabmapper":
-	java -cp $("$code_path""cp.sh") tabmapper.TabMapper $1 $2 $3
-#java -cp $("$tabmapper_path""cp.sh") tabmapper.TabMapper $1 $2 $3
+# Create the class path
+# NB Instead of creating the class path every time this script is
+# called, it can also be created once, in install.sh. However, the
+# former is more flexible as it (1) enables addition of code to the 
+# class path after installation, and (2) is very fast anyway (< 0.5s)
+class_path=$("$code_path""cp.sh" "$code_path")
+
+## Call java with the arguments given to tabmapper
+## NB. This command can also be called directly from the CLI
+#if $2 == "tabmapper":
+#	java -cp "$class_path" tabmapper.TabMapper $1 $2 $3
+##	java -cp $("$code_path""cp.sh") tabmapper.TabMapper $1 $2 $3
+##java -cp $("$tabmapper_path""cp.sh") tabmapper.TabMapper $1 $2 $3

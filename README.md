@@ -13,14 +13,14 @@
 
        $ cd <root_path>/<code_path>/
 
-4. Install `abTab` on your computer by running the installation script,  `install.sh`:
+4. Run the installation script,  `install.sh`:
 
        $ bash install.sh
 
    This script will 
    - Clone the necessary code repositories from GitHub.
    - Create the necessary directory structure in `<root_path>`.
-   - Install the command line tool on your computer. 
+   - Install the command line tool `abTab` on your computer. 
 
 
 1. Clone the following repositories into the `<code_path>` directory:

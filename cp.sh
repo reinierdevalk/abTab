@@ -1,22 +1,22 @@
 #!/bin/bash
 
-# Script that constructs the classpath from cp.txt.
+# Script that constructs the classpath from cp.txt. This
+# script is called by abTab every time it is run.
 
-code_path="F:/research/computation/software/code/eclipse/"
-#tabmapper_path="$code_path""tabmapper/"
+code_path=$1
 
-# 1. Initialise classpath
+# Read each line from cp.txt, prepend code_path, add
+# semicolon, and append to classpath
+# NB: for the last line to be read, cp.txt must end with
+#     a line break
 classpath=""
-
-# 2. Read each line from cp.txt, prepend code_path, 
-# add semicolon, and append to classpath
 while IFS= read -r line; do
     classpath+="$code_path""$line;"
 done < "cp.txt"
 
-# 3. Remove any carriage returns; remove trailing semicolon
+# Remove any carriage returns; remove trailing semicolon
 classpath=$(echo "$classpath" | tr -d '\r')
 classpath=${classpath%;}
 
-# 4. Return the constructed classpath
+# Return the constructed classpath
 echo "$classpath"
