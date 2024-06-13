@@ -12,7 +12,7 @@ code_path=$1
 classpath=""
 while IFS= read -r line; do
     classpath+="$code_path""$line;"
-done < "cp.txt"
+done < "$code_path""cp.txt"
 
 # Remove any carriage returns; remove trailing semicolon
 classpath=$(echo "$classpath" | tr -d '\r')

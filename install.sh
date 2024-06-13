@@ -53,56 +53,84 @@ handle_file "$cp_file" 1
 abtab_file="abTab"
 handle_file "$abtab_file" 1
 
-# 2. Source config.cfg and make *_PATHs available locally
+# 2. Source config.cfg to make *_PATHs available locally
 echo "... reading configuration file ... "
 source "$config_file"
 root_path="$ROOT_PATH"
 code_path="$LIB_PATH"
+#code_path_parent=$(dirname "$code_path")"/" # code path without abTab/ dir
 exe_path="$EXE_PATH"
-
-# 3. Set path to code in executable
-echo "... setting path to code in abTab ... "
+# Set code_path in executable
 placeholder="cp_placeholder"
 # Escape forward slashes and replace placeholder with result
 code_path_esc=$(echo "$code_path" | sed 's/\//\\\//g')
 sed -i "s/$placeholder/$code_path_esc/g" "$abtab_file"
 
-# 4. Check code_path and exe_path
-Handle code dir and executable 
-# a. Code dir
-code_path_first=$(dirname "$code_path")"/" # code path up to abTab/ dir
-code_path_last=$(basename "$code_path")"/" # abTab/ dir
-# If code path exists: empty it (if necessary)
-if [ -d "$code_path" ]; then
-  if [ "$(ls -A "$code_path")" ]; then
-    rm -rf "${code_path:?}/"*
-    echo "    ... emptying existing dir $code_path_last on $code_path_first ..."
-  else
-    echo "    ... empty dir $code_path_last on $code_path_first already exists ..."
-  fi
-# If code path does not exist: create it
-else
-  mkdir -p "$code_path"
-  echo "    ... creating dir $code_path_last on $code_path_first ..."
-fi
-# b. Executable
-# If executable exists: delete it
-if [ -f "$exe_path""$abtab_file" ]; then
-  rm "$exe_path""$abtab_file"
-  echo "    ... deleting existing executable $abtab_file on $exe_path ..."
-fi
-
-# 5. Clone repos into dir holding this script
-# Extract parts before first slash; sort; get unique values
-repos=$(cut -d '/' -f 1 "cp.txt" | sort | uniq)
-for repo in $repos; do
-    # Ignore elements starting with a dot
-    if [[ ! "$repo" =~ ^\. ]]; then
-        repo_url="https://github.com/reinierdevalk/$repo.git"
-        echo "... cloning $repo_url ..."
-        git clone "$repo_url"
+# 3. Handle config paths
+echo "... handling paths ... "
+config_paths=(
+              "$root_path"
+              "$(dirname "$code_path")""/" # code path without abTab/ dir
+              "$exe_path"
+             )
+for path in "${config_paths[@]}"; do
+    if [ ! -d "$path" ]; then
+        mkdir -p "$path"
     fi
 done
+
+# 4. Clear code_path and exe_path
+# a. code_path (/usr/local/lib/abTab/)
+echo "    ... clearing $code_path ..."
+if [ -d "$code_path" ]; then
+    rm -r "$code_path" # remove the last dir (abTab/) on code_path 
+fi
+mkdir -p $code_path
+# b. exe_path (/usr/local/bin/)
+echo "    ... clearing $exe_path ..." 
+if [ -f "$exe_path""$abtab_file" ]; then
+    rm -f "$exe_path""$abtab_file" 
+fi
+
+## 5. Clone repos into pwd
+## Extract parts before first slash; sort; get unique values
+#repos=$(cut -d '/' -f 1 "cp.txt" | sort | uniq)
+#for repo in $repos; do
+#    # Ignore elements starting with a dot
+#    if [[ ! "$repo" =~ ^\. ]]; then
+#        repo_url="https://github.com/reinierdevalk/$repo.git"
+#        echo "... cloning $repo_url ..."
+#        git clone "$repo_url"
+#    fi
+#done
+
+# 6. Make dirs on root_path
+echo "... creating directories on $root_path ..."
+paths=(
+       "templates/" 
+       "tabmapper/in/tab/" "tabmapper/in/MIDI/" "tabmapper/out/"
+       "transcriber/in/" "transcriber/out/"
+       "polyphonist/models" "polyphonist/in/" "polyphonist/out/"
+       )
+for path in "${paths[@]}"; do
+    if [ ! -d "$root_path""$path" ]; then
+        mkdir -p "$root_path""$path"
+    fi
+done
+
+# 7. Install abTab
+echo "... installing abTab ..."
+# Copy executable to exe_path
+cp "$abtab_file" "$exe_path"
+# Copy contents of pwd (excluding executable) to code_path
+for item in *; do
+    if [ "$item" != "$abtab_file" ]; then
+        cp -r "$item" "$code_path"
+    fi
+done
+#rsync -av --exclude="$abtab_file" ./ "$code_path"
+
+echo "done!"
 
 
 
@@ -125,9 +153,3 @@ done
 #if [ ! -d "$data_out" ]; then
 #    mkdir -p "$data_out"
 #fi
-
-## 5. Copy abTab to global environment
-#echo "... copying abTab to "$PATH_PATH" ..."
-#cp "$abtab_file" "$PATH_PATH"
-
-echo "done!"

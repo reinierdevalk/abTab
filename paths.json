@@ -9,6 +9,7 @@
   "EXPERIMENTS_PATH":           "experiments/",
   "TEMPLATES_PATH":             "templates/",
   "MODELS_PATH":                "models/",
+  "TABMAPPER_PATH":             "tabmapper/",
 
   // paths on DATA_PATH
   "ENCODINGS_PATH":             "voice_separation/encodings/",
