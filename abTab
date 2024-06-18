@@ -2,20 +2,37 @@
 
 # Script that runs abTab.
 
-code_path="/usr/local/lib/abTab/"
+lib_path="/usr/local/lib/abTab/"
+#lib_path="C:/Users/Reinier/lib/abTab/"
+#lib_path="/cygdrive/c/Users/Reinier/lib/abTab/"
+
 
 # Create the class path
 # NB Instead of creating the class path every time this script is
 # called, it can also be created once, in install.sh. However, the
-# former is more flexible as it (1) enables addition of code to the 
-# class path after installation, and (2) is very fast anyway (< 0.5s)
-class_path=$("$code_path""cp.sh" "$code_path")
-echo "$class_path" 
+# former is more flexible as it enables addition of code to the 
+# class path after installation (and it is very fast anyway (< 0.5s)).
+#class_path=$("$lib_path""cp.sh" "$lib_path") # makes absolute paths: /usr/local/lib/abTab/<repo>/bin;...
+#DO NOT USE class_path=$("$lib_path""cp.sh" "") # makes relative paths: <repo>/bin;...
+#class_path=$(./cp.sh "")
+
+#class_path=$($lib_path/cp.sh "$lib_path") # makes absolute paths: /usr/local/lib/abTab/<repo>/bin;...
+#class_path=$("$lib_path""cp.sh" "$lib_path")
+class_path=$(./cp.sh "")
+
+
+echo "$class_path"
+echo ". . . . . ."
+
+
+
+#class_path=".;formats/bin;formats/lib/*;machine_learning/bin;machine_learning/lib/*;melody_models/bin;melody_models/lib/*;representations/bin;representations/lib/*;tabmapper/bin;tabmapper/lib/*;utils/bin;utils/lib/*;voice_separation/bin;voice_separation/lib/*"
+#class_path="/usr/local/lib/abTab/.;/usr/local/lib/abTab/formats/bin;/usr/local/lib/abTab/formats/lib/*;/usr/local/lib/abTab/machine_learning/bin;/usr/local/lib/abTab/machine_learning/lib/*;/usr/local/lib/abTab/melody_models/bin;/usr/local/lib/abTab/melody_models/lib/*;/usr/local/lib/abTab/representations/bin;/usr/local/lib/abTab/representations/lib/*;/usr/local/lib/abTab/tabmapper/bin;/usr/local/lib/abTab/tabmapper/lib/*;/usr/local/lib/abTab/utils/bin;/usr/local/lib/abTab/utils/lib/*;/usr/local/lib/abTab/voice_separation/bin;/usr/local/lib/abTab/voice_separation/lib/*"
 
 ## Call java with the arguments given to tabmapper
 ## NB. This command can also be called directly from the CLI
 if [ "$1" == "tabmapper" ]; then
 	java -cp "$class_path" tabmapper.TabMapper $2 $3 $4
 fi
-##	java -cp $("$code_path""cp.sh") tabmapper.TabMapper $1 $2 $3
+##	java -cp $("$lib_path""cp.sh") tabmapper.TabMapper $1 $2 $3
 ##java -cp $("$tabmapper_path""cp.sh") tabmapper.TabMapper $1 $2 $3

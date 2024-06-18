@@ -1,0 +1,52 @@
+#!/bin/bash
+
+is_win=1
+
+# Unix path
+lib_path="C:/Users/Reinier/lib/abTab/"
+
+# Set to cygpath (/cygdrive/c/Users/Reinier/lib/abTab/)
+lib_path_cyg=$(cygpath -u "$lib_path")
+
+# Set to Windows path (C:\Users\Reinier\lib\abTab\)
+lib_path_win=$(cygpath -w "$lib_path_cyg")
+echo $lib_path
+echo $lib_path_cyg
+echo $lib_path_win
+
+# Function to convert Cygwin paths to Windows paths
+to_windows_path() {
+    cygpath -w "$1"
+}
+
+class_path=$($lib_path/cp.sh $lib_path $is_win)
+echo HIERRRRRR
+echo $class_path
+
+# Generate the classpath by explicitly listing directories and jar files
+#class_path=$(to_windows_path "$lib_path")".;$(to_windows_path "$lib_path/formats/bin");"
+
+# Expand wildcards for each lib directory and append to the classpath
+#for dir in formats/lib tabmapper/lib utils/lib; do
+#    for jar in "$lib_path/$dir"/*.jar; do
+#        if [[ -f "$jar" ]]; then
+#            class_path+=$(to_windows_path "$jar")";"
+#        fi
+#    done
+#done
+
+# Add the remaining directories to the classpath
+#class_path+=$(to_windows_path "$lib_path/tabmapper/bin");$(to_windows_path "$lib_path/utils/bin")
+
+# Remove any trailing semicolon
+#class_path=${class_path%;}
+
+#class_path=" C:\Users\Reinier\lib\abTab\.;C:\Users\Reinier\lib\abTab\formats\bin;C:\Users\Reinier\lib\abTab\utils\lib\jackson-annotations-2.17.1.jar;C:\Users\Reinier\lib\abTab\utils\lib\jackson-core-2.17.1.jar;C:\Users\Reinier\lib\abTab\utils\lib\jackson-databind-2.17.1.jar;C:\Users\Reinier\lib\abTab\utils\lib\musitech.jar;C:\Users\Reinier\lib\abTab\tabmapper\bin"
+#DEZEclass_path="C:\Users\Reinier\lib\abTab\.;C:\Users\Reinier\lib\abTab\formats\bin;C:\Users\Reinier\lib\abTab\formats\lib\*;C:\Users\Reinier\lib\abTab\machine_learning\bin;C:\Users\Reinier\lib\abTab\machine_learning\lib\*;C:\Users\Reinier\lib\abTab\melody_models\bin;C:\Users\Reinier\lib\abTab\melody_models\lib\*;C:\Users\Reinier\lib\abTab\representations\bin;C:\Users\Reinier\lib\abTab\representations\lib\*;C:\Users\Reinier\lib\abTab\tabmapper\bin;C:\Users\Reinier\lib\abTab\tabmapper\lib\*;C:\Users\Reinier\lib\abTab\utils\bin;C:\Users\Reinier\lib\abTab\utils\lib\*;C:\Users\Reinier\lib\abTab\voice_separation\bin;C:\Users\Reinier\lib\abTab\voice_separation\lib\*"
+
+
+## Print the computed classpath for debugging
+#echo "Computed classpath: $class_path"
+
+## Run the Java application
+java -cp "$class_path" tabmapper.TabMapper

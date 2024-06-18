@@ -57,35 +57,32 @@ handle_file "$abtab_file" 1
 echo "... reading configuration file ... "
 source "$config_file"
 root_path="$ROOT_PATH"
-code_path="$LIB_PATH"
-#code_path_parent=$(dirname "$code_path")"/" # code path without abTab/ dir
+lib_path="$LIB_PATH"
+#lib_path_parent=$(dirname "$lib_path")"/" # code path without abTab/ dir
 exe_path="$EXE_PATH"
-# Set code_path in executable
-placeholder="cp_placeholder"
+# Set lib_path in executable
+placeholder="lp_placeholder"
 # Escape forward slashes and replace placeholder with result
-code_path_esc=$(echo "$code_path" | sed 's/\//\\\//g')
-sed -i "s/$placeholder/$code_path_esc/g" "$abtab_file"
+lib_path_esc=$(echo "$lib_path" | sed 's/\//\\\//g')
+sed -i "s/$placeholder/$lib_path_esc/g" "$abtab_file"
 
 # 3. Handle config paths
 echo "... handling paths ... "
-config_paths=(
-              "$root_path"
-              "$(dirname "$code_path")""/" # code path without abTab/ dir
-              "$exe_path"
-             )
+lib_path_parent="$(dirname "$lib_path")""/" # code path without abTab/ dir
+config_paths=("$root_path" "$lib_path_parent" "$exe_path")
 for path in "${config_paths[@]}"; do
     if [ ! -d "$path" ]; then
         mkdir -p "$path"
     fi
 done
 
-# 4. Clear code_path and exe_path
-# a. code_path (/usr/local/lib/abTab/)
-echo "    ... clearing $code_path ..."
-if [ -d "$code_path" ]; then
-    rm -r "$code_path" # remove the last dir (abTab/) on code_path 
+# 4. Clear lib_path and exe_path
+# a. lib_path (/usr/local/lib/abTab/)
+echo "    ... clearing $lib_path ..."
+if [ -d "$lib_path" ]; then
+    rm -r "$lib_path" # remove the last dir (abTab/) on lib_path 
 fi
-mkdir -p $code_path
+mkdir -p $lib_path
 # b. exe_path (/usr/local/bin/)
 echo "    ... clearing $exe_path ..." 
 if [ -f "$exe_path""$abtab_file" ]; then
@@ -122,16 +119,15 @@ done
 echo "... installing abTab ..."
 # Copy executable to exe_path
 cp "$abtab_file" "$exe_path"
-# Copy contents of pwd (excluding executable) to code_path
+# Copy contents of pwd (excluding executable) to lib_path
 for item in *; do
     if [ "$item" != "$abtab_file" ]; then
-        cp -r "$item" "$code_path"
+        cp -r "$item" "$lib_path"
     fi
 done
-#rsync -av --exclude="$abtab_file" ./ "$code_path"
+#rsync -av --exclude="$abtab_file" ./ "$lib_path"
 
 echo "done!"
-
 
 
 ## 4. Create folders
