@@ -68,28 +68,49 @@ sed -i "s/$placeholder/$lib_path_esc/g" "$abtab_file"
 
 # 3. Handle config paths
 echo "... handling paths ... "
-lib_path_parent="$(dirname "$lib_path")""/" # code path without abTab/ dir
-config_paths=("$root_path" "$lib_path_parent" "$exe_path")
+# If paths don't exist, make them
+config_paths=("$root_path" "$lib_path" "$exe_path")
 for path in "${config_paths[@]}"; do
     if [ ! -d "$path" ]; then
         mkdir -p "$path"
     fi
 done
 
-# 4. Clear lib_path and exe_path
-# a. lib_path (/usr/local/lib/abTab/)
-echo "    ... clearing $lib_path ..."
-if [ -d "$lib_path" ]; then
-    rm -r "$lib_path" # remove the last dir (abTab/) on lib_path 
+# 4. Add exe_path (as cygpath) to the end of ~/.bash_profile  
+# Create ~/.bash_profile if it doesn't exist
+bp_file="$HOME/.bash_profile" # ~/.bash_profile
+if [ ! -f "$bp_file" ]; then
+  touch "$bp_file"
 fi
-mkdir -p $lib_path
-# b. exe_path (/usr/local/bin/)
-echo "    ... clearing $exe_path ..." 
+# Create exe_path_cyg without trailing slash; if it has not been added,
+# add to ~/.bash_profile and source ~/.bash_profile (apply the changes) 
+exe_path_cyg=$(cygpath -u "$exe_path")
+exe_path_cyg=$(echo "$exe_path_cyg" | sed 's:/*$::')
+to_add="PATH=\$PATH:$exe_path_cyg" # PATH=$PATH:/cygdrive/c/Users/Reinier/bin
+if ! grep -qxF "$to_add" "$bp_file"; then
+  echo "$to_add" >> "$bp_file" 
+  source "$bp_file"
+fi
+
+# 5. If needed: clear last folder (abTab/) on lib_path; remove executable from exe_path
+# a. lib_path
+echo "    ... clearing $lib_path ..."
+# If lib_path is not empty: remove all contents from last folder (abTab/)
+if [ ! -z "$(ls -A "$lib_path")" ]; then
+    rm -rf "$lib_path"/*
+fi
+#if [ -d "$lib_path" ]; then
+#    rm -r "$lib_path" # remove the last dir (abTab/) on lib_path 
+#fi
+#mkdir -p $lib_path
+# b. exe_path
+echo "    ... removing $exe_path$abtab_file ..."
+# If the executable exists
 if [ -f "$exe_path""$abtab_file" ]; then
     rm -f "$exe_path""$abtab_file" 
 fi
 
-## 5. Clone repos into pwd
+## 6. Clone repos into pwd
 ## Extract parts before first slash; sort; get unique values
 #repos=$(cut -d '/' -f 1 "cp.txt" | sort | uniq)
 #for repo in $repos; do
@@ -101,19 +122,19 @@ fi
 #    fi
 #done
 
-# 6. Make dirs on root_path
-echo "... creating directories on $root_path ..."
-paths=(
-       "templates/" 
-       "tabmapper/in/tab/" "tabmapper/in/MIDI/" "tabmapper/out/"
-       "transcriber/in/" "transcriber/out/"
-       "polyphonist/models" "polyphonist/in/" "polyphonist/out/"
-       )
-for path in "${paths[@]}"; do
-    if [ ! -d "$root_path""$path" ]; then
-        mkdir -p "$root_path""$path"
-    fi
-done
+## 6. Make dirs on root_path
+#echo "... creating directories on $root_path ..."
+#paths=(
+#       "templates/" 
+#       "tabmapper/in/tab/" "tabmapper/in/MIDI/" "tabmapper/out/"
+#       "transcriber/in/" "transcriber/out/"
+#       "polyphonist/models" "polyphonist/in/" "polyphonist/out/"
+#       )
+#for path in "${paths[@]}"; do
+#    if [ ! -d "$root_path""$path" ]; then
+#        mkdir -p "$root_path""$path"
+#    fi
+#done
 
 # 7. Install abTab
 echo "... installing abTab ..."

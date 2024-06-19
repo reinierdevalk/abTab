@@ -1,13 +1,21 @@
-1. Create, on a path of choice on your computer (`<root_path>`), a directory that will hold the code (`<code_path>`). It is recommended to let the basename (final directory) of `<root_path>` be `abTab/`, and to let `<code_path>` be `code/`.    
+1. Create, on a path of choice on your computer a directory called `abTab`. The path up to and including this directory is the `<root_path>`, and it will hold any output created by `abTab`.
 
 2. Open `config.cfg` and
-   - Replace the default value of the `ROOT_PATH` variable with `<root_path>`.
-   - Replace the default value of the `CODE_PATH` variable with `<code_path>`. 
-   - Replace the default value of the `PATH_PATH` variable with a directory that is on the `$PATH` variable. Recommended is `/usr/local/bin/`.
-     
-     You can check which directories are on the `$PATH` variable as follows:
+   - Replace the default value of the `ROOT_PATH` variable with the `<root_path>`.
+   - Replace the default value of the `LIB_PATH` variable with the `<lib_path>`, i.e., the location where the installer should place the code. Suggested locations are
+     - On Windows: `C:/Users/<Name>/lib/abTab/`   
+     - On Unix: `/usr/local/lib/abTab/`  
+   Use Unix-style (forward) slashes as separators in both cases. 
+   - Replace the default value of the `EXE_PATH` variable with the `<exe_path>`, i.e., the location where the installer should place the executable. Suggested locations are 
+     - On Windows: `C:/Users/<Name>/bin/`
+     - On Unix: `/usr/local/bin/`
+   Again, use Unix-style (forward) slashes as separators in both cases.
 
-         $ echo $PATH
+   The installer will create any of these paths if they do not yet exist; it will also add the `<exe_path>` to the `$PATH` variable if it is not yet on it.     
+
+   You can check which paths are on the `$PATH` variable as follows:
+
+      $ echo $PATH
 
 3. cd into the `<code_path>` directory
 
