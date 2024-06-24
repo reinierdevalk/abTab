@@ -7,9 +7,10 @@
   "DEPLOYMENT_DEV_PATH":        "data/",
   "DATA_PATH":                  "data/annotated/",
   "EXPERIMENTS_PATH":           "experiments/",
-  "TEMPLATES_PATH":             "templates/",
   "MODELS_PATH":                "models/",
-  "TABMAPPER_PATH":             "tabmapper/",
+  "TEMPLATES_PATH":             "templates/",
+  "TABMAPPER_PATH":             "tool_data/tabmapper/",
+  "DIPLOMAT_PATH":              "tool_data/transcriber/diplomatic/",
 
   // paths on DATA_PATH
   "ENCODINGS_PATH":             "voice_separation/encodings/",

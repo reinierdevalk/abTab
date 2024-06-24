@@ -1,4 +1,5 @@
-1. Create, on a path of choice on your computer a directory called `abTab`. The path up to and including this directory is the `<root_path>`, and it will hold any output created by `abTab`.
+1. Create, on a path of choice on your computer a directory called `abTab`. The path up to and including this directory is the `<root_path>`, and it will hold the input files read and output files created by `abTab`.
+   (rdv: in dev mode, this is F:/research/computation/)
 
 2. Open `config.cfg` and
    - Replace the default value of the `ROOT_PATH` variable with the `<root_path>`.

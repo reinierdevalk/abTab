@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Script that installs `abTab`. It must be called from the
-# same folder that folds config.cfg, cp.sh, and cp.txt.
+# Script that installs `abTab`. It must be called from the same
+# folder that folds config.cfg, cp.sh, cp.txt, and abTab.
 
 remove_carriage_returns() {
     local file="$1"
@@ -60,11 +60,14 @@ root_path="$ROOT_PATH"
 lib_path="$LIB_PATH"
 #lib_path_parent=$(dirname "$lib_path")"/" # code path without abTab/ dir
 exe_path="$EXE_PATH"
-# Set lib_path in executable
-placeholder="lp_placeholder"
+# Set root_path and lib_path in executable
+lp_placeholder="lp_placeholder"
+rp_placeholder="rp_placeholder"
 # Escape forward slashes and replace placeholder with result
 lib_path_esc=$(echo "$lib_path" | sed 's/\//\\\//g')
-sed -i "s/$placeholder/$lib_path_esc/g" "$abtab_file"
+sed -i "s/$lp_placeholder/$lib_path_esc/g" "$abtab_file"
+root_path_esc=$(echo "$root_path" | sed 's/\//\\\//g')
+sed -i "s/$rp_placeholder/$root_path_esc/g" "$abtab_file"
 
 # 3. Handle config paths
 echo "... handling paths ... "

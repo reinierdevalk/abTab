@@ -2,6 +2,7 @@
 
 # Script that runs abTab.
 
+root_path="F:/research/computation/abTab/"
 lib_path="/usr/local/lib/abTab/"
 #lib_path="C:/Users/Reinier/lib/abTab/"
 #lib_path="/cygdrive/c/Users/Reinier/lib/abTab/"
