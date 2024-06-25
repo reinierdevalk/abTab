@@ -11,6 +11,7 @@
   "TEMPLATES_PATH":             "templates/",
   "TABMAPPER_PATH":             "tool_data/tabmapper/",
   "DIPLOMAT_PATH":              "tool_data/transcriber/diplomatic/",
+  "POLYPHONIST_PATH":           "tool_data/transcriber/polyphonic/",
 
   // paths on DATA_PATH
   "ENCODINGS_PATH":             "voice_separation/encodings/",
